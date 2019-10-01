@@ -18,12 +18,10 @@ class DecryptEngine():
     def decryptBlock(self, block):
         iv = bytearray("\x00"*BLOCKSIZE)
         intermediate = bytearray("\x00"*BLOCKSIZE)
-        dec = ""
         for i in range(BLOCKSIZE):
             for j in range(i):
                 iv[(BLOCKSIZE-1)-j] = intermediate[(BLOCKSIZE-1)-j] ^ (i+1)
 
-            payload = iv + block
             ep = self.decryptAtIndex(iv+block, (BLOCKSIZE-1)-i)
             intermediate[(BLOCKSIZE-1)-i] = ep ^ (i+1)
             print("intermediate: {}".format([hex(x)[2:] for x in intermediate]))
