@@ -32,7 +32,7 @@ class DecryptEngine():
 
     def getIntermediate(self, ciphertext):
         key = ""
-	blocks = len(ciphertext)/BLOCKSIZE
+	blocks = int(len(ciphertext)/BLOCKSIZE)
 	for i in range(blocks):
 	    blockStart = len(ciphertext)-(i+1)*BLOCKSIZE
 	    blockEnd = len(ciphertext)-(i*BLOCKSIZE)
