@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 
-BLOCKSIZE =16 
+BLOCKSIZE = 16 
 
 class DecryptEngine():
 
