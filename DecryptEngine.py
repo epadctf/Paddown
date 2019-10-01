@@ -14,6 +14,7 @@ class DecryptEngine():
             testCt[index] = chr(guess)		
 	    if self.padChecker.hasValidPadding(testCt):
 	        return guess
+        raise RuntimeError("[!] Found no valid padding, is PadChecker implemented correctly?")
 
     def decryptBlock(self, block):
         iv = bytearray("\x00"*BLOCKSIZE)
