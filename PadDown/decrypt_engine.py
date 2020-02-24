@@ -1,6 +1,8 @@
+import structlog
 from abc import abstractmethod
 from .exceptions import PadDownException
 
+logger = structlog.get_logger(__name__)
 
 class PadChecker:
     """
@@ -67,7 +69,12 @@ class DecryptEngine:
         if not isinstance(ciphertext, bytes):
             raise Exception(f"Ciphertext {type(ciphertext)} not an instance of {bytes}")
 
+        logger.debug(f"Ciphertext length: {len(ciphertext)}")
+        logger.debug(f"Blocks to decrypt: {len(ciphertext) // self.blocksize}")
+
+        # Convert ciphertext to mutable bytearray
         ciphertext = bytearray(ciphertext)
+
         key = self.get_intermediate(ciphertext)
         plaintext = bytearray() 
         for i in range(len(ciphertext) - self.blocksize):
