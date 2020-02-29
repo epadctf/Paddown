@@ -1,4 +1,4 @@
-name: Python application
+name: PadDown Unittests
 
 on: [push]
 
