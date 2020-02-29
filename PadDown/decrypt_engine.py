@@ -35,7 +35,7 @@ class DecryptEngine(ABC):
             if self.has_valid_padding(ciphertext_temp):
                 return c_prime
 
-        raise PadDownException("No valid padding found, is PadChecker implemented correctly?")
+        raise PadDownException(f"No valid padding found, is .has_valid_padding(...) implemented correctly?")
 
     def decrypt_block(self, c_i):
         if not isinstance(c_i, bytearray):

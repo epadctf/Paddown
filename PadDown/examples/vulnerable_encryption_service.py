@@ -8,8 +8,7 @@ class InvalidPadding(BaseException):
 
 class VulnerableEncryptionService:
     """
-    Used to simulate a vulnerable black box encryption service.
-    The service is vulnerable to Padding oracle attack
+    This service is an example of a service vulnerable to Padding oracle attack
     """
 
     key = b"deadbeeffeedface"  # Secret key, only known to service
