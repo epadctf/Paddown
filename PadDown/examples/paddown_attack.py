@@ -1,13 +1,13 @@
 from base64 import b64decode
 
-from PadDown.decrypt_engine import DecryptEngine, PadChecker
+from PadDown.decrypt_engine import DecryptEngine
 from vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 
 if __name__ == "__main__":
     # Ciphertext we would like to decrypt
     ciphertext = b64decode("RkVEQ0JBOTg3NjU0MzIxMIw2tqVlQTrnDQ1wm338Z+ZRWxhz6mVZnv81Ey4MWYTd")
 
-    class MyPadChecker(PadChecker):
+    class MyDecryptEngine(DecryptEngine):
         # Our test padding oracle
         VEC = VulnerableEncryptionService()
 
@@ -20,5 +20,5 @@ if __name__ == "__main__":
                 return False
             return False
 
-    plaintext_decrypted = DecryptEngine(MyPadChecker(), ciphertext).decrypt()
+    plaintext_decrypted = MyDecryptEngine(ciphertext).decrypt()
     print(plaintext_decrypted)

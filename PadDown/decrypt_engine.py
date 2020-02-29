@@ -7,29 +7,20 @@ from .exceptions import PadDownException
 logger = structlog.get_logger(__name__)
 
 
-class PadChecker(ABC):
-    """
-    Create a subclass of PadChecker to pass to DecryptEngine
-    """
-
+class DecryptEngine(ABC):
     @abstractmethod
     def has_valid_padding(self, ciphertext: bytes) -> bool:
         """
-        Override this method to check if the padding of the ciphertext is valid
+        Override this method and send off the ciphertext to check for valid padding.
 
-        :param bytes ciphertext: The ciphertext to check, send this to your padding oracle
+        :param bytes ciphertext: The ciphertext to check, send this to your padding oracle.
         :rtype: True for valid padding, False otherwise.
         """
         raise PadDownException("Not implemented")
 
-
-class DecryptEngine:
-    def __init__(self, pad_checker: PadChecker, ciphertext: bytes, blocksize: int = 16):
-        if not isinstance(pad_checker, PadChecker):
-            raise PadDownException(f"pad_checker not an instance of {PadChecker}")
+    def __init__(self, ciphertext: bytes, blocksize: int = 16):
         if not isinstance(ciphertext, bytes):
             raise Exception(f"Ciphertext {type(ciphertext)} not an instance of {bytes}")
-        self.pad_checker = pad_checker
         self.ciphertext = ciphertext
         self.blocksize = blocksize
 
@@ -41,7 +32,7 @@ class DecryptEngine:
         ciphertext_temp = ciphertext
         for c_prime in range(256):
             ciphertext_temp[index] = c_prime
-            if self.pad_checker.has_valid_padding(ciphertext_temp):
+            if self.has_valid_padding(ciphertext_temp):
                 return c_prime
 
         raise PadDownException("No valid padding found, is PadChecker implemented correctly?")

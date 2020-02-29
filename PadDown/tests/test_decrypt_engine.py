@@ -1,6 +1,6 @@
 import pytest
 from Crypto.Util.Padding import unpad
-from PadDown.decrypt_engine import DecryptEngine, PadChecker
+from PadDown.decrypt_engine import DecryptEngine
 
 from ..examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 
@@ -17,16 +17,16 @@ class TestVulnerableEncryptionService:
 
 class TestDecryptEngine:
     def test_decrypt_at_index(self):
-        class TestPadChecker(PadChecker):
+        class MyDecryptEngine(DecryptEngine):
             def has_valid_padding(self, ciphertext):
                 return ciphertext == b"\x05"
 
-        decrypt_engine = DecryptEngine(TestPadChecker(), b"dummy")
+        decrypt_engine = MyDecryptEngine(b"dummy")
         decrypt_engine.find_c_prime_at_index(bytearray(b"\x00"), 0)
 
     @pytest.mark.skip
     def test_decrypt_block(self):
-        class TestPadChecker(PadChecker):
+        class MyDecryptEngine(DecryptEngine):
             def has_valid_padding(self, ciphertext):
                 return ciphertext == b"\x05"
 
@@ -38,7 +38,7 @@ class TestDecryptEngine:
 
         ciphertext = VEC.encrypt(plaintext_original)
 
-        class MyPadChecker(PadChecker):
+        class VECDecryptEngine(DecryptEngine):
             def has_valid_padding(self, ciphertext):
                 try:
                     VEC.decrypt(ciphertext)
@@ -47,5 +47,5 @@ class TestDecryptEngine:
                     return False
                 return False
 
-        plaintext_decrypted = DecryptEngine(MyPadChecker(), ciphertext).decrypt()
+        plaintext_decrypted = VECDecryptEngine(ciphertext).decrypt()
         assert plaintext_original == unpad(plaintext_decrypted, 16)
