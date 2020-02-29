@@ -1,6 +1,18 @@
 name: PadDown Unittests
 
-on: [push]
+on:
+  push:
+    # Run tests on merge to master
+    branches:
+      - master
+
+    # Run tests when tagging
+    tags:
+      - v*
+
+  # Run tests for any PRs.
+  pull_request:
+
 
 jobs:
   build:
