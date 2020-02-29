@@ -1,9 +1,0 @@
-version: 2.1
-
-jobs:
-    build:
-      docker: 
-        - image: robatbender/paddown-ci:1.0
-      steps:
-        - checkout # check out the code in the project directory
-        - run: pylint *.py
