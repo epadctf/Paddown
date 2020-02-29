@@ -16,6 +16,7 @@ The project can be setup with
 python3 -m venv .venv
 .venv/bin/activate
 pip install -r requirements/dev.txt
+pre-commit install
 ```
 
 ### Pull requests
@@ -25,5 +26,5 @@ We use [black](https://github.com/psf/black), [flake8](https://flake8.pycqa.org/
 
 Please squash all commits before submitting a pull request.
 
-## Testing
+### Testing
 To run the unittests, simply run `pytest`.

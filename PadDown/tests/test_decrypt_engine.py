@@ -1,6 +1,7 @@
+import pytest
 from Crypto.Util.Padding import unpad
+from examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 from PadDown.decrypt_engine import DecryptEngine, PadChecker
-from PadDown.examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 
 VEC = VulnerableEncryptionService()
 
@@ -19,16 +20,17 @@ class TestDecryptEngine:
             def has_valid_padding(self, ciphertext):
                 return ciphertext == b"\x05"
 
-        decrypt_engine = DecryptEngine(TestPadChecker())
-        decrypt_engine.decrypt_at_index(bytearray(b"\x00"), 0)
+        decrypt_engine = DecryptEngine(TestPadChecker(), b"dummy")
+        decrypt_engine.find_c_prime_at_index(bytearray(b"\x00"), 0)
 
+    @pytest.mark.skip
     def test_decrypt_block(self):
         class TestPadChecker(PadChecker):
             def has_valid_padding(self, ciphertext):
                 return ciphertext == b"\x05"
 
     def test_complete_run(self):
-        plaintext_original = bytearray("This is a padded plaintext", encoding="ascii")
+        plaintext_original = b"This is a padded plaintext"
 
         # Assert that the plaintext is padded
         assert len(plaintext_original) % 16 != 0
@@ -44,6 +46,6 @@ class TestDecryptEngine:
                     return False
                 return False
 
-        decrypt_engine = DecryptEngine(MyPadChecker())
-        plaintext_decrypted = decrypt_engine.decrypt(VEC.iv + ciphertext)
+        ciphertext = VEC.iv + ciphertext
+        plaintext_decrypted = DecryptEngine(MyPadChecker(), ciphertext).decrypt()
         assert plaintext_original == unpad(plaintext_decrypted, 16)
