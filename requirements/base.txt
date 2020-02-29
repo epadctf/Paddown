@@ -1,1 +1,2 @@
 pycryptodome==3.9.0
+structlog==20.1.0
