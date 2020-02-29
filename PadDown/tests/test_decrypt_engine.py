@@ -1,7 +1,8 @@
 import pytest
 from Crypto.Util.Padding import unpad
-from examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 from PadDown.decrypt_engine import DecryptEngine, PadChecker
+
+from ..examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 
 VEC = VulnerableEncryptionService()
 
@@ -46,6 +47,5 @@ class TestDecryptEngine:
                     return False
                 return False
 
-        ciphertext = VEC.iv + ciphertext
         plaintext_decrypted = DecryptEngine(MyPadChecker(), ciphertext).decrypt()
         assert plaintext_original == unpad(plaintext_decrypted, 16)
