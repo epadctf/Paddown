@@ -1,5 +1,12 @@
+# Visual Studio Code
 .vscode/
+
+# Environments
+.env
+.venv
+env/
 venv/
+ENV/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -37,11 +44,18 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
