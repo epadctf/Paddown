@@ -1,16 +1,16 @@
 from Crypto.Util.Padding import unpad
 from PadDown.decrypt_engine import DecryptEngine, PadChecker
-from PadDown.examples.vulnerable_encryption_service import VulnerableEncryptionService
+from PadDown.examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 
 VEC = VulnerableEncryptionService()
 
 
 class TestVulnerableEncryptionService:
     def test_encryption_and_decryption(self):
-        plaintext_misaligned = b"message"
+        plaintext_misaligned = b"Misaligned plaintext!"
         ciphertext = VEC.encrypt(plaintext_misaligned)
-        decrypted_plaintext = VEC.decrypt(ciphertext)
-        assert plaintext_misaligned == decrypted_plaintext
+        answer = VEC.decrypt(ciphertext)
+        assert answer == "Decryption successful!"
 
 
 class TestDecryptEngine:
@@ -40,7 +40,7 @@ class TestDecryptEngine:
                 try:
                     VEC.decrypt(ciphertext)
                     return True
-                except ValueError:
+                except InvalidPadding:
                     return False
                 return False
 
