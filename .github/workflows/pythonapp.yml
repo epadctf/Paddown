@@ -19,9 +19,6 @@ jobs:
         pip install -r requirements/dev.txt
     - name: Lint
       run: |
-        pip install flake8 black isort
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --exit-zero --max-complexity=10 -show-source --statistics 
         black --check --diff .
         isort -rc -cs -l 119 --check-only --diff .
     - name: Test with pytest
