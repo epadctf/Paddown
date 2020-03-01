@@ -5,7 +5,7 @@ import structlog
 logger = structlog.get_logger(__name__)
 
 
-class PadDownException(Exception):
+class PaddownException(Exception):
     pass
 
 
@@ -18,7 +18,7 @@ class Paddown(ABC):
         :param bytes ciphertext: The ciphertext to check, send this to your padding oracle.
         :rtype: True for valid padding, False otherwise.
         """
-        raise PadDownException("Not implemented")
+        raise PaddownException("Not implemented")
 
     def __init__(self, ciphertext: bytes, blocksize: int = 16):
         if not isinstance(ciphertext, bytes):
@@ -28,7 +28,7 @@ class Paddown(ABC):
 
     def find_c_prime_at_index(self, ciphertext: bytearray, index: int):
         if not isinstance(ciphertext, bytearray):
-            raise PadDownException(f"ciphertext not an instance of {bytearray}")
+            raise PaddownException(f"ciphertext not an instance of {bytearray}")
 
         # Replace ciphertext at index with a guessed byte
         ciphertext_temp = ciphertext
@@ -37,11 +37,11 @@ class Paddown(ABC):
             if self.has_valid_padding(ciphertext_temp):
                 return c_prime
 
-        raise PadDownException(f"No valid padding found, is .has_valid_padding(...) implemented correctly?")
+        raise PaddownException(f"No valid padding found, is .has_valid_padding(...) implemented correctly?")
 
     def decrypt_block(self, c_i):
         if not isinstance(c_i, bytearray):
-            raise PadDownException(f"block c_i not an instance of {bytearray}")
+            raise PaddownException(f"block c_i not an instance of {bytearray}")
 
         c_previous = bytearray(b"\x00" * self.blocksize)
         intermediate = bytearray(b"\x00" * self.blocksize)

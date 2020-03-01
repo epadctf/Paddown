@@ -1,7 +1,7 @@
 import pytest
 from Crypto.Util.Padding import unpad
 from examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
-from paddown import Paddown, PadDownException
+from paddown import Paddown, PaddownException
 
 VEC = VulnerableEncryptionService()
 
@@ -22,7 +22,7 @@ class TestPaddown:
                 return False
 
         decrypt_engine = MyPaddown(b"dummy")
-        with pytest.raises(PadDownException):
+        with pytest.raises(PaddownException):
             decrypt_engine.find_c_prime_at_index(bytearray(b"\x00"), 0)
 
     @pytest.mark.skip
