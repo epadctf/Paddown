@@ -1,35 +1,33 @@
 import pytest
 from Crypto.Util.Padding import unpad
-from PadDown.decrypt_engine import DecryptEngine
-from PadDown.exceptions import PadDownException
-
-from ..examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
+from examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
+from paddown import Paddown, PadDownException
 
 VEC = VulnerableEncryptionService()
 
 
-class TestDecryptEngine:
+class TestPaddown:
     def test_find_c_prime_at_index(self):
-        class MyDecryptEngine(DecryptEngine):
+        class MyPaddown(Paddown):
             def has_valid_padding(self, ciphertext):
                 return ciphertext == b"\x05"
 
-        decrypt_engine = MyDecryptEngine(b"dummy")
+        decrypt_engine = MyPaddown(b"dummy")
         decrypt_engine.find_c_prime_at_index(bytearray(b"\x00"), 0)
 
     def test_exception_raised_on_bad_implementation(self):
-        class MyDecryptEngine(DecryptEngine):
+        class MyPaddown(Paddown):
             def has_valid_padding(self, ciphertext):
                 # No valid encryption ever found
                 return False
 
-        decrypt_engine = MyDecryptEngine(b"dummy")
+        decrypt_engine = MyPaddown(b"dummy")
         with pytest.raises(PadDownException):
             decrypt_engine.find_c_prime_at_index(bytearray(b"\x00"), 0)
 
     @pytest.mark.skip
     def test_decrypt_block(self):
-        class MyDecryptEngine(DecryptEngine):
+        class MyPaddown(Paddown):
             def has_valid_padding(self, ciphertext):
                 return ciphertext == b"\x05"
 
@@ -41,7 +39,7 @@ class TestDecryptEngine:
 
         ciphertext = VEC.encrypt(plaintext_original)
 
-        class VECDecryptEngine(DecryptEngine):
+        class VECPaddown(Paddown):
             def has_valid_padding(self, ciphertext):
                 try:
                     VEC.decrypt(ciphertext)
@@ -50,5 +48,5 @@ class TestDecryptEngine:
                     return False
                 return False
 
-        plaintext_decrypted = VECDecryptEngine(ciphertext).decrypt()
+        plaintext_decrypted = VECPaddown(ciphertext).decrypt()
         assert plaintext_original == unpad(plaintext_decrypted, 16)

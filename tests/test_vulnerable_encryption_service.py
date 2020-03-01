@@ -1,4 +1,4 @@
-from ..examples.vulnerable_encryption_service import VulnerableEncryptionService
+from examples.vulnerable_encryption_service import VulnerableEncryptionService
 
 VEC = VulnerableEncryptionService()
 
