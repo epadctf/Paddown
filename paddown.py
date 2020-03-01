@@ -1,8 +1,7 @@
+import logging
 from abc import ABC, abstractmethod
 
-import structlog
-
-logger = structlog.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PaddownException(Exception):
