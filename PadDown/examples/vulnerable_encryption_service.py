@@ -8,11 +8,10 @@ class InvalidPadding(BaseException):
 
 class VulnerableEncryptionService:
     """
-    Used to simulate a vulnerable black box encryption service.
-    The service is vulnerable to Padding oracle attack
+    This service is an example of a service vulnerable to Padding oracle attack
     """
 
-    key = b"0123456789ABCDEF"  # Secret key, only known to service
+    key = b"deadbeeffeedface"  # Secret key, only known to service
     iv = b"FEDCBA9876543210"  # Public IV, usually prepended to ciphertext
 
     def encrypt(self, plaintext):
@@ -23,7 +22,7 @@ class VulnerableEncryptionService:
         :rtype bytes: Returns ciphertext
         """
         cipher = AES.new(self.key, AES.MODE_CBC, IV=self.iv)
-        return cipher.encrypt(pad(plaintext, 16))
+        return self.iv + cipher.encrypt(pad(plaintext, 16))
 
     def decrypt(self, ciphertext):
         """
