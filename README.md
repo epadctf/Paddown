@@ -1,12 +1,12 @@
-# PadDown
-PadDown is an AES CBC PKCS7 [Padding Oracle Attack](https://en.wikipedia.org/wiki/Padding_oracle_attack)  engine. It simplifies performing [Padding Oracle Attack](https://en.wikipedia.org/wiki/Padding_oracle_attack) on a vulnerable encryption service. This is useful for both CTF and real-world attacks, where you are in possession of a ciphertext, and have a so called Padding Oracle available.
+# Paddown
+Paddown is an AES CBC PKCS7 [Padding Oracle Attack](https://en.wikipedia.org/wiki/Padding_oracle_attack)  engine. It simplifies performing [Padding Oracle Attack](https://en.wikipedia.org/wiki/Padding_oracle_attack) on a vulnerable encryption service. This is useful for both CTF and real-world attacks, where you are in possession of a ciphertext, and have a so called Padding Oracle available.
 
 ## Usage
-* Using PadDown is as easy as subclassing the `Paddown` class overwriting the ``hasValidPadding(...)`` method retuning a `bool`. As argument it takes ciphertext to test against the Padding Oracle. Have your implementation return ``True`` if you receive no padding error and ``False`` otherwise.
+* Using Paddown is as easy as subclassing the `Paddown` class overwriting the ``hasValidPadding(...)`` method retuning a `bool`. As argument it takes ciphertext to test against the Padding Oracle. Have your implementation return ``True`` if you receive no padding error and ``False`` otherwise.
 
 * Now you are ready to call `.decrypt()` on your class and start decrypting your ciphertext.
 
-Examples can be found in the `PadDown/examples` directory.
+Examples can be found in the `./examples` directory.
 
 ## Development
 

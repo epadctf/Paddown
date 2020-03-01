@@ -17,4 +17,11 @@ setuptools.setup(
         [console_scripts]
         paddown=paddown:paddown
     """,
+    url="https://github.com/epadctf/Paddown",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires=">=3.7",
 )
