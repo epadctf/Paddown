@@ -1,2 +1,0 @@
-class PadDownException(Exception):
-    pass
