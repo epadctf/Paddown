@@ -2,12 +2,14 @@ from abc import ABC, abstractmethod
 
 import structlog
 
-from .exceptions import PadDownException
-
 logger = structlog.get_logger(__name__)
 
 
-class DecryptEngine(ABC):
+class PadDownException(Exception):
+    pass
+
+
+class Paddown(ABC):
     @abstractmethod
     def has_valid_padding(self, ciphertext: bytes) -> bool:
         """
