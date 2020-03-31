@@ -1,4 +1,5 @@
 import logging
+import sys
 from abc import ABC, abstractmethod
 
 logger = logging.getLogger(__name__)
@@ -44,7 +45,9 @@ class Paddown(ABC):
 
         c_previous = bytearray(b"\x00" * self.blocksize)
         intermediate = bytearray(b"\x00" * self.blocksize)
+
         for i in range(self.blocksize):
+            self.progress_bar(i, self.blocksize, "Decrypting")
             for j in range(i):
                 c_previous[(self.blocksize - 1) - j] = intermediate[(self.blocksize - 1) - j] ^ (i + 1)
 
@@ -73,7 +76,15 @@ class Paddown(ABC):
 
         key = self.get_intermediate(self.ciphertext)
         plaintext = bytearray()
+
         for i in range(len(self.ciphertext) - self.blocksize):
             b = self.ciphertext[i] ^ key[i + self.blocksize]
             plaintext += (b).to_bytes(1, byteorder="big")
         return plaintext
+
+    def progress_bar(self, i, total_length, post_text):
+        n_bar = 100  # size of progress bar
+        j = i / total_length
+        sys.stdout.write("\r")
+        sys.stdout.write(f"[{'#' * int(n_bar * j):{n_bar}s}] {int(100 * j)}%  {post_text}")
+        sys.stdout.flush()

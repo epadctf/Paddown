@@ -1,7 +1,7 @@
 from base64 import b64decode
 
+from examples.vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 from paddown import Paddown
-from vulnerable_encryption_service import InvalidPadding, VulnerableEncryptionService
 
 if __name__ == "__main__":
     # Ciphertext we would like to decrypt
