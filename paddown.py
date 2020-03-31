@@ -47,7 +47,7 @@ class Paddown(ABC):
         intermediate = bytearray(b"\x00" * self.blocksize)
 
         for i in range(self.blocksize):
-            self.progress_bar(i, self.blocksize, "Decrypting")
+            self.progress_bar(i, self.blocksize - 1, "Decrypting ")
             for j in range(i):
                 c_previous[(self.blocksize - 1) - j] = intermediate[(self.blocksize - 1) - j] ^ (i + 1)
 
@@ -80,7 +80,7 @@ class Paddown(ABC):
         for i in range(len(self.ciphertext) - self.blocksize):
             b = self.ciphertext[i] ^ key[i + self.blocksize]
             plaintext += (b).to_bytes(1, byteorder="big")
-        return plaintext
+        return f"\n {plaintext}"
 
     def progress_bar(self, i, total_length, post_text):
         n_bar = 100  # size of progress bar

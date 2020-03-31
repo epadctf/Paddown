@@ -1,5 +1,7 @@
 # Visual Studio Code
 .vscode/
+# pycharm
+.idea
 
 # Environments
 .env
