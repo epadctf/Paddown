@@ -80,7 +80,8 @@ class Paddown(ABC):
         for i in range(len(self.ciphertext) - self.blocksize):
             b = self.ciphertext[i] ^ key[i + self.blocksize]
             plaintext += (b).to_bytes(1, byteorder="big")
-        return f"\n {plaintext}"
+        print("\n")  # print variable on new line from progress bar
+        return plaintext
 
     def progress_bar(self, i, total_length, post_text):
         n_bar = 100  # size of progress bar
