@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     py_modules=["paddown"],
-    install_requires=["pycryptodome==3.9.0"],
+    install_requires=["pycryptodome==3.19.1"],
     entry_points="""
         [console_scripts]
         paddown=paddown:paddown
